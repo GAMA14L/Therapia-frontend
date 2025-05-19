@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TherapIA - Tu IA de Apoyo Psicológico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(to right, #dbeafe, #e0f7fa);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      width: 95%;
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 32px;
+      margin: 0;
+      color: #3b82f6;
+    }
+
+    header p {
+      color: #555;
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    #chat {
+      height: 400px;
+      overflow-y: auto;
+      padding-right: 10px;
+      margin-bottom: 20px;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      margin: 12px 0;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message.bot {
+      justify-content: flex-start;
+    }
+
+    .bubble {
+      max-width: 70%;
+      padding: 14px 18px;
+      border-radius: 20px;
+      font-size: 15px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .user .bubble {
+      background-color: #bae6fd;
+      color: #0c4a6e;
+      border-bottom-right-radius: 0;
+    }
+
+    .bot .bubble {
+      background-color: #e0f2f1;
+      color: #004d40;
+      border-bottom-left-radius: 0;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      background: linear-gradient(to right, #3b82f6, #06b6d4);
+      border: none;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 24px;
+      }
+      .bubble {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>MindConnect</h1>
+      <p>Tu espacio seguro con IA — apoyo, orientación y motivación.</p>
+    </header>
+
+    <div id="chat">
+      <div class="message bot">
+        <div class="bubble">👋 ¡Hola! Soy tu psicóloga virtual. Estoy aquí para escucharte, apoyarte y ayudarte a crecer. ¿Cómo te sientes hoy?</div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Escribe tu mensaje..." />
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    const backendURL = 'http://localhost:5000/chat'; // Cambia esto si lo subes a producción
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      if (!message) return;
+
+      addMessage(message, 'user');
+      input.value = '';
+
+      try {
+        const res = await fetch(backendURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+        addMessage(data.aiResponse, 'bot');
+      } catch (error) {
+        addMessage('⚠️ Lo siento, hubo un problema de conexión con la IA.', 'bot');
+      }
+    }
+
+    function addMessage(text, sender) {
+      const chat = document.getElementById('chat');
+      const messageEl = document.createElement('div');
+      messageEl.className = `message ${sender}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.textContent = text;
+      messageEl.appendChild(bubble);
+      chat.appendChild(messageEl);
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+</body>
+</html>
