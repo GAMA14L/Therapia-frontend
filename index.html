@@ -13,7 +13,7 @@
 
     body {
       margin: 0;
-      background: linear-gradient(to right, #dbeafe, #e0f7fa);
+      background: linear-gradient(to right, #ede9fe, #ede9fe);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -27,7 +27,7 @@
       background: white;
       border-radius: 20px;
       padding: 24px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 20px 60px rgba(124, 58, 237, 0.2);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -41,11 +41,11 @@
     header h1 {
       font-size: 32px;
       margin: 0;
-      color: #3b82f6;
+      color: #7c3aed; /* morado */
     }
 
     header p {
-      color: #555;
+      color: #5b21b6; /* morado oscuro */
       font-size: 16px;
       margin-top: 8px;
     }
@@ -81,14 +81,14 @@
     }
 
     .user .bubble {
-      background-color: #bae6fd;
-      color: #0c4a6e;
+      background-color: #ddd6fe; /* lila claro */
+      color: #5b21b6; /* morado oscuro */
       border-bottom-right-radius: 0;
     }
 
     .bot .bubble {
-      background-color: #e0f2f1;
-      color: #004d40;
+      background-color: #ede9fe; /* lila muy claro */
+      color: #6b21a8; /* morado intermedio */
       border-bottom-left-radius: 0;
     }
 
@@ -106,7 +106,7 @@
     }
 
     button {
-      background: linear-gradient(to right, #3b82f6, #06b6d4);
+      background: linear-gradient(to right, #7c3aed, #a78bfa);
       border: none;
       color: white;
       padding: 12px 18px;
@@ -138,8 +138,8 @@
 <body>
   <div class="container">
     <header>
-      <h1>MindConnect</h1>
-      <p>Tu espacio seguro con IA — apoyo, orientación y motivación.</p>
+      <h1>Therap-IA</h1>
+      <p>Tu espacio de apoyo emocional con inteligencia artificial.</p>
     </header>
 
     <div id="chat">
@@ -163,33 +163,4 @@
       if (!message) return;
 
       addMessage(message, 'user');
-      input.value = '';
-
-      try {
-        const res = await fetch(backendURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
-        });
-
-        const data = await res.json();
-        addMessage(data.aiResponse, 'bot');
-      } catch (error) {
-        addMessage('⚠️ Lo siento, hubo un problema de conexión con la IA.', 'bot');
-      }
-    }
-
-    function addMessage(text, sender) {
-      const chat = document.getElementById('chat');
-      const messageEl = document.createElement('div');
-      messageEl.className = `message ${sender}`;
-      const bubble = document.createElement('div');
-      bubble.className = 'bubble';
-      bubble.textContent = text;
-      messageEl.appendChild(bubble);
-      chat.appendChild(messageEl);
-      chat.scrollTop = chat.scrollHeight;
-    }
-  </script>
-</body>
-</html>
+      input.value
