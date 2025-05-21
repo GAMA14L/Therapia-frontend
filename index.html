@@ -138,7 +138,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>TherapIA</h1>
+      <h1>Therapia</h1>
       <p>El primer paso hacia la psicología.</p>
     </header>
 
@@ -155,7 +155,7 @@
   </div>
 
   <script>
-    const backendURL = 'https://therapia-backend-4.onrender.com'; // Cambia esta URL si tu backend cambia
+    const backendURL = 'https://therapia-backend-4.onrender.com'; // Tu backend Render
 
     async function sendMessage() {
       const input = document.getElementById('userInput');
@@ -175,8 +175,8 @@
         const data = await res.json();
         addMessage(data.aiResponse, 'bot');
       } catch (error) {
-        console.error('Error de conexión:', error);
         addMessage('⚠️ Lo siento, hubo un problema de conexión con la IA.', 'bot');
+        console.error('Error al enviar mensaje:', error);
       }
     }
 
@@ -194,3 +194,4 @@
   </script>
 </body>
 </html>
+
